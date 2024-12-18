@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Center student Action -->
+    <record id="class_student_action" model="ir.actions.act_window">
+        <field name="name">Étudiants</field>
+        <field name="res_model">class.student</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Définir un nouvel étudiant</p>
+        </field>
+        <!-- <field name="context">{
+            'search_default_available_properties': True,
+            'group_by': 'property_type_id',
+        }</field> -->
+    </record>
+
+    
+
+    <!-- Customize the list/tree view -->
+    <record id="class_student_view_tree" model="ir.ui.view">
+        <field name="name">class.student.tree</field>
+        <field name="model">class.student</field>
+        <field name="arch" type="xml">
+            <tree string="Etudients" decoration-danger="absences_cound >= 8">
+                <field name="name" />
+                <field name="phone" />
+                <field name="birthday" />
+                <field name="group_id" />
+                <field name="absences_cound" class="text-danger" />
+                
+            </tree>
+        </field>
+    </record>
+
+    <!-- Customize the form view -->
+    <record id="class_student_view_form" model="ir.ui.view">
+        <field name="name">class.student.form</field>
+        <field name="model">class.student</field>
+        <field name="arch" type="xml">
+            <form string="Student">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="phone" />
+                        <field name="birthday" />
+                        <field name="group_id" />
+
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

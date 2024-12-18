@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_group_list_application"
+            model="report.paperformat">
+        <field name="name">Student Application A4</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">70</field>
+        <field name="margin_bottom">28</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">50</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="report_group_list_action"
+            model="ir.actions.report">
+        <field name="name">Student list group</field>
+        <field name="model">center.group</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id"
+               ref="paperformat_student_application"/>
+        <field name="report_name">tutoring_center.report_center_group</field>
+        <field name="report_file">tutoring_center.report_center_group</field>
+        <field name="print_report_name">'Group list- %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_center_group"/>
+    </record>
+
+    <template id="report_center_group">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="group">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div style="text-align: right;">
+                            <strong>Date: </strong>
+                            <t t-esc="datetime.datetime.now().strftime('%Y-%m-%d')" />
+                        </div>
+                        <h2>Group Information</h2>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Group Name:</th>
+                                <td><t t-esc="group.name"/></td>
+                            </tr>
+                            <tr>
+                                <th>Matière:</th>
+                                <td><t t-esc="group.service_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <th>Niveau:</th>
+                                <td><t t-esc="group.level.level_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <th>L'année scolaire:</th>
+                                <td><t t-esc="group.school_year.name"/></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <h3>Étudiants</h3>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Ref d'inscription</th>
+                                    <th>Ref étudiant</th>
+                                    <th>Nom et prénom</th>
+                                    <th>Présent / Absent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="group.subscribe_ids" t-as="subscribe">
+                                    <tr>
+                                        <td><t t-esc="subscribe.name"/></td>
+                                        <td><t t-esc="subscribe.student_id.name"/></td>
+                                        <td><t t-esc="subscribe.student_id.full_name"/></td>
+                                        <td></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

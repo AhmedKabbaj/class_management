@@ -1,0 +1,38 @@
+<odoo>
+    <!-- Primary School Levels -->
+    <record id="center_cycle_level_cp" model="center.cycle.level">
+        <field name="name">CP</field>
+        <field name="level_id" ref="center_level_primary"/> <!-- Assuming a primary level exists -->
+        <field name="cycle_id" ref="cycle_primary"/> <!-- Assuming a primary cycle exists -->
+    </record>
+
+    <record id="center_cycle_level_ce1" model="center.cycle.level">
+        <field name="name">CE1</field>
+        <field name="level_id" ref="center_level_primary"/>
+        <field name="cycle_id" ref="cycle_primary"/>
+    </record>
+
+    <record id="center_cycle_level_ce2" model="center.cycle.level">
+        <field name="name">CE2</field>
+        <field name="level_id" ref="center_level_primary"/>
+        <field name="cycle_id" ref="cycle_primary"/>
+    </record>
+
+    <record id="center_cycle_level_cm1" model="center.cycle.level">
+        <field name="name">CM1</field>
+        <field name="level_id" ref="center_level_primary"/>
+        <field name="cycle_id" ref="cycle_primary"/>
+    </record>
+
+    <record id="center_cycle_level_cm2" model="center.cycle.level">
+        <field name="name">CM2</field>
+        <field name="level_id" ref="center_level_primary"/>
+        <field name="cycle_id" ref="cycle_primary"/>
+    </record>
+
+    <record id="center_cycle_level_6e_annee" model="center.cycle.level">
+        <field name="name">6ème année</field>
+        <field name="level_id" ref="center_level_primary"/>
+        <field name="cycle_id" ref="cycle_primary"/>
+    </record>
+</odoo>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Paper format for student application-->
+    <record id="paperformat_student_application"
+            model="report.paperformat">
+        <field name="name">Student Application A4</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">70</field>
+        <field name="margin_bottom">28</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">50</field>
+        <field name="dpi">90</field>
+    </record>
+    <!--Report action of Education application-->
+    <record id="action_student_application_report"
+            model="ir.actions.report">
+        <field name="name">Student Application</field>
+        <field name="model">center.subscribe</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id"
+               ref="paperformat_student_application"/>
+        <field name="report_name">tutoring_center.report_student_application</field>
+        <field name="report_file">tutoring_center.report_student_application</field>
+        <field name="print_report_name">'Student Application - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_center_subscribe"/>
+    </record>
+    <!--Student application report template-->
+    <template id="report_student_application">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div style="text-align: center; margin-top:-20px;">
+                            <h2>
+                                <span>Student Application Form/Online
+                                </span>
+                            </h2>
+                        </div>
+                        <div class="row" style="margin-top:50px;">
+                            <div class="col-8" style="">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                <span>Student's Name:
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.student_id.full_name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                <span>Father's Name:</span>
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <span t-if="o.student_id.father_name"
+                                                  t-field="o.student_id.father_name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                <span>Mother's Name:</span>
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <span t-if="o.student_id.mother_name"
+                                                  t-field="o.student_id.mother_name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left; padding-left:10px;"
+                                            class="col-xs-4">
+                                            <strong>
+                                                <span t-if="o.cycle_id">
+                                                    Type d'inscription:
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align:left;"
+                                            class="col-xs-4">
+                                            <span t-if="o.cycle_id"
+                                                  t-field="o.cycle_id.name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-4" style="margin-top:-30px;">
+                                <img t-if="not o.image"
+                                     t-att-src="'/education_core/static/src/img/placeholder.jpg'"
+                                     height="220" border="1" width="220"
+                                     style="margin-left:25px;"/>
+                                <img t-if="o.image"
+                                     t-attf-src="data:image/png;base64,{{o.image}}"
+                                     height="220"
+                                     border="1" width="180"
+                                     style="margin-left:35px;"/>
+                                <p style="text-align: center;">
+                                    <b>Date :</b>
+                                    <span t-field="o.date"
+                                          t-options='{"format": "dd.MM.YYYY"}'/>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 50px;">
+                            <div class="col-8">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <td class="col-xs-8">
+                                            <p style="text-align:left;">
+                                                <strong>
+                                                    <span>
+                                                        Address:
+                                                    </span>
+                                                </strong>
+                                            </p>
+                                        </td>
+                                        <td class="col-xs-4">
+                                            <t style="text-align:left; padding-left:10px;"/>
+                                            <t t-if="o.student_id.adresse"><span
+                                                    t-field="o.student_id.adresse"/>,
+                                            </t>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-8">
+                                            <p style="text-align:left; padding-left:10px;">
+                                                <strong>
+                                                    <span>Téléphone:
+                                                    </span>
+                                                </strong>
+                                            </p>
+                                        </td>
+                                        <td class="col-xs-4">
+                                            <p style="text-align:left; padding-left:10px;"/>
+                                            <t t-if="o.student_id.phone">
+                                                <span t-field="o.student_id.phone"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="o.student_id.gender">
+                                        <td style="text-align:left; padding-left:10px;"
+                                            class="col-xs-4">
+                                            <strong>
+                                                <span t-if="o.student_id.gender">
+                                                    Sex:
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align:left;"
+                                            class="col-xs-4">
+                                            <span t-if="o.student_id.gender"
+                                                  t-field="o.student_id.gender"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="o.student_id.birthday">
+                                        <td style="text-align:left; padding-left:10px;"
+                                            class="col-xs-4">
+                                            <strong>
+                                                <span>Date of Birth:</span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align:left;"
+                                            class="col-xs-4">
+                                            <span t-if="o.student_id.birthday"
+                                                  t-field="o.student_id.birthday"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

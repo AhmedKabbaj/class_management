@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Center group Action -->
+    <record id="class_group_action" model="ir.actions.act_window">
+        <field name="name">Groupes</field>
+        <field name="res_model">class.group</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Définir un nouvel groupe</p>
+        </field>
+        <!-- <field name="context">{
+            'search_default_available_properties': True,
+            'group_by': 'property_type_id',
+        }</field> -->
+    </record>
+
+    
+
+    <!-- Customize the list/tree view -->
+    <record id="class_group_view_tree" model="ir.ui.view">
+        <field name="name">class.group.tree</field>
+        <field name="model">class.group</field>
+        <field name="arch" type="xml">
+            <tree string="Groupes">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+        <record id="view_absence_tree" model="ir.ui.view">
+        <field name="name">class.absence.tree</field>
+        <field name="model">class.absence</field>
+        <field name="arch" type="xml">
+            <tree string="Absences">
+                <!-- <field name="name" /> -->
+                <field name="student_id" />
+                <!-- <field name="date"/> -->
+                <field name="year" column_invisible="1"/>
+                <field name="month" column_invisible="1"/>
+                <field name="day" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="class_absence_search" model="ir.ui.view">
+        <field name="name">class.absence.search</field>
+        <field name="model">class.absence</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="date"/>
+                <group expand="1" string="Group By">
+                    <filter string="Year" name="year" context="{'group_by': 'date'}"/>
+                    <!-- <filter string="Year" name="year" context="{'group_by': 'year'}"/>
+                    <filter string="Month" name="month" context="{'group_by': 'month'}"/>
+                    <filter string="Day" name="day" context="{'group_by': 'day'}"/> -->
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="class_absence_action" model="ir.actions.act_window">
+        <field name="name">Absences</field>
+        <field name="res_model">class.absence</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_absence_tree"/>
+        <field name="search_view_id" ref="class_absence_search"/>
+        <field name="context">{'group_by': ['year', 'date', 'name']}</field>
+    </record>
+
+
+    <!-- Customize the form view -->
+    <record id="class_group_view_form" model="ir.ui.view">
+        <field name="name">class.group.form</field>
+        <field name="model">class.group</field>
+        <field name="arch" type="xml">
+            <form string="Groupe">
+                <header>
+                    <button name="%(class_absence_action)d" type="action" string="View Absences" class="oe_stat_button" icon="fa-users"/>
+                </header>
+                <sheet> 
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <!-- <group>
+                        <field name="student_ids" />
+                    </group> -->
+                    
+                    <notebook>
+                        <page string="Etudients" >
+                            <field name="student_ids" >
+                                <tree editable="top" >
+                                    <field name="name" />
+                                    <field name="birthday" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Absences" >
+                            <field name="absence_ids" editable="top" string="Absences" group_by="year, month, day">
+                                <tree editable="top" >
+                                    <field name="name" />
+                                    <field name="student_id" />
+                                    <field name="date"/>
+                                    <field name="year" column_invisible="1"/> <!-- Hide year field from view -->
+                                    <field name="month" column_invisible="1"/> <!-- Hide month field from view -->
+                                    <field name="day" column_invisible="1"/> <!-- Hide day field from view -->
+                                </tree>
+                            </field>
+                            
+                        </page>
+                    </notebook>
+                        
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+
+
+
+
+
+
+
+
+
+
+</odoo>

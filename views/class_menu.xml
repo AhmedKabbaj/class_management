@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Menu Items -->
+    <menuitem id="center_menu_root" name="Tutoring Center">
+        <menuitem id="center_student_menu_action" action="class_student_action" sequence="1" />
+        <menuitem id="center_subscribe_menu_action" action="class_group_action" sequence="2"/>
+    </menuitem>
+
+</odoo>
